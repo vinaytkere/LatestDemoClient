@@ -12,7 +12,7 @@ export interface RegisterInput {
 
 const authService = {
     login: async (data: LoginInput): Promise<string> => {
-        const res = await apiClient.post<{ token: string }>('/auth/login', data);
+        const res = await apiClient.post<{ token: string }>('/auth/token', data);
         return res.data.token;
     },
     register: async (data: RegisterInput): Promise<void> => {
