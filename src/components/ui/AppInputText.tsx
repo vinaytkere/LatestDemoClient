@@ -7,11 +7,12 @@ interface AppInputTextProps {
     value: string;
     onChange: (val: string) => void;
     required?: boolean;
+    type?: string;
 }
 
-export const AppInputText: React.FC<AppInputTextProps> = ({ id, label, value, onChange, required }) => (
+export const AppInputText: React.FC<AppInputTextProps> = ({ id, label, value, onChange, required, type = 'text' }) => (
     <div className="p-field">
         <label htmlFor={id}>{label}{required ? ' *' : ''}</label>
-        <InputText id={id} value={value} onChange={e => onChange(e.target.value)} className="w-full" />
+        <InputText id={id} type={type} value={value} onChange={e => onChange(e.target.value)} className="w-full" />
     </div>
 );
