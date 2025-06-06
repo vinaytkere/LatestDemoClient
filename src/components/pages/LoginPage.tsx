@@ -15,7 +15,7 @@ export const LoginPage: React.FC = () => {
         try {
             const token = await authService.login({ username, password });
             localStorage.setItem('token', token);
-            navigate('/');
+            navigate('/addresses');
         } catch {
             setError('Invalid credentials');
         }
