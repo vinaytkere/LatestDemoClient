@@ -1,4 +1,9 @@
 import axios from 'axios';
+const existingToken = localStorage.getItem('token');
+if (existingToken) {
+    apiClient.defaults.headers.common['Authorization'] = `Bearer ${existingToken}`;
+}
+
 import type { InternalAxiosRequestConfig } from 'axios'; // Import correct type for config
 
 const apiClient = axios.create({

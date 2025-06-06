@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AppInputText } from '../ui/AppInputText';
 import { AppButton } from '../ui/AppButton';
 import authService from '../../api/authService';
+import apiClient from '../../api/apiClient';
 
 export const LoginPage: React.FC = () => {
     const navigate = useNavigate();
@@ -15,6 +16,7 @@ export const LoginPage: React.FC = () => {
         try {
             const token = await authService.login({ username, password });
             localStorage.setItem('token', token);
+            apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             navigate('/addresses');
         } catch {
             setError('Invalid credentials');

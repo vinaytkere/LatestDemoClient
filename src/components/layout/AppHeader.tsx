@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import apiClient from '../../api/apiClient';
 
 export const AppHeader: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -8,6 +9,7 @@ export const AppHeader: React.FC = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('token');
+        delete apiClient.defaults.headers.common['Authorization'];
         navigate('/login');
     };
 
