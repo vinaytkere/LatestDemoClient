@@ -1,31 +1,33 @@
 import { Dropdown } from 'primereact/dropdown';
 import React from 'react';
 
-interface AppDropdownProps {
+interface AppDropdownProps<T> {
     id: string;
     label: string;
-    value: any;
-    options: { label: string; value: any }[];
-    onChange: (value: any) => void;
+    value: T;
+    options: { label: string; value: T }[];
+    onChange: (value: T) => void;
     required?: boolean;
 }
 
-export const AppDropdown: React.FC<AppDropdownProps> = ({
+export function AppDropdown<T>({
     id,
     label,
     value,
     options,
     onChange,
     required
-}) => (
-    <div className="p-field">
-        <label htmlFor={id}>{label}{required ? ' *' : ''}</label>
-        <Dropdown
-            id={id}
-            value={value}
-            options={options}
-            onChange={e => onChange(e.value)}
-            className="w-full"
-        />
-    </div>
-);
+}: AppDropdownProps<T>) {
+    return (
+        <div className="p-field">
+            <label htmlFor={id}>{label}{required ? ' *' : ''}</label>
+            <Dropdown
+                id={id}
+                value={value}
+                options={options}
+                onChange={(e) => onChange(e.value as T)}
+                className="w-full"
+            />
+        </div>
+    );
+}

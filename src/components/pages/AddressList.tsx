@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AppTable } from '../ui/AppTable';
+import { AppButton } from '../ui/AppButton';
 import type { Address } from '../../models/Address';
-import type { PaginatedResponse } from '../../models/PaginatedResponse';
-import { createApiService } from '../../api/apiService';
+import { addressService } from '../../api/addressService';
 
 const columns: { field: keyof Address; header: string }[] = [
     { field: 'country', header: 'Country' },
@@ -16,13 +17,11 @@ export const AddressList: React.FC = () => {
     const [pageNumber, setPageNumber] = useState(0);
     const [pageSize, setPageSize] = useState(5);
     const [totalCount, setTotalCount] = useState(0);
+    const navigate = useNavigate();
 
     const fetchAddresses = async (page: number, size: number) => {
         try {
-            const api = createApiService<PaginatedResponse<Address>>(
-                `Address?pageNumber=${page + 1}&pageSize=${size}`
-            );
-            const res = await api.getAll();
+            const res = await addressService.getAll(page + 1, size);
             setAddresses(res.items);
             setTotalCount(res.totalCount);
         } catch (error) {
@@ -41,7 +40,10 @@ export const AddressList: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-gray-100 pt-20 overflow-hidden">
-            <div className="max-w-4xl mx-auto px-4">
+            <div className="max-w-4xl mx-auto px-4 space-y-3">
+                <div className="flex justify-end">
+                    <AppButton label="Create" onClick={() => navigate('create')} />
+                </div>
                 <AppTable
                     data={addresses}
                     totalRecords={totalCount}
@@ -49,8 +51,13 @@ export const AddressList: React.FC = () => {
                     rowsPerPage={pageSize}
                     onPaginationChange={handlePaginationChange}
                     columns={columns}
-                    onEdit={(item) => console.log('Edit', item)}
-                    onDelete={(item) => console.log('Delete', item)}
+                    onEdit={(item) => navigate(`edit/${item.id}`)}
+                    onDelete={async (item) => {
+                        if (item.id) {
+                            await addressService.remove(item.id);
+                            fetchAddresses(pageNumber, pageSize);
+                        }
+                    }}
                 />
             </div>
         </div>

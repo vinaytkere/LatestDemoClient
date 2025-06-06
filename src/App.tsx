@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppLayout } from './components/layout/AppLayout';
 import { AddressList } from './components/pages/AddressList';
-// import CreateAddress from './pages/CreateAddress';
+import { AddressForm } from './components/pages/AddressForm';
 
 function App() {
   return (
@@ -9,8 +9,8 @@ function App() {
       <Routes>
         <Route path="/" element={<AppLayout />}>
           <Route index element={<AddressList />} />
-          {/* <Route path="create" element={<CreateAddress />} /> */}
-          {/* Add more routes here */}
+          <Route path="create" element={<AddressForm />} />
+          <Route path="edit/:id" element={<AddressForm />} />
         </Route>
       </Routes>
     </BrowserRouter>

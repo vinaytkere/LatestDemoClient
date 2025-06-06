@@ -11,14 +11,14 @@ export type FormField<T> = {
     label: string;
     type?: FieldType;
     required?: boolean;
-    options?: { label: string; value: any }[];
+    options?: { label: string; value: unknown }[];
 };
 
 export interface AppFormProps<T> {
     model: T;
     fields: FormField<T>[];
     onSubmit: (model: T) => void;
-    onChange: (key: keyof T, value: any) => void;
+    onChange: (key: keyof T, value: unknown) => void;
 }
 
 export function AppForm<T>({
