@@ -57,7 +57,7 @@ export const AddressForm = () => {
     };
 
     return (
-        <div className="max-w-md mx-auto pt-20">
+        <div className="max-w-md mx-auto bg-white shadow rounded-md p-4 mt-8">
             <AppForm model={model} fields={fields} onChange={handleChange} onSubmit={handleSubmit} />
         </div>
     );

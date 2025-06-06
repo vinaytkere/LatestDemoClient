@@ -39,8 +39,8 @@ export const AddressList: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 pt-20 overflow-hidden">
-            <div className="max-w-4xl mx-auto px-4 space-y-3">
+        <div className="pt-8 pb-10 overflow-hidden">
+            <div className="max-w-4xl mx-auto px-4 space-y-4 bg-white shadow rounded-md p-4">
                 <div className="flex justify-end">
                     <AppButton label="Create" onClick={() => navigate('create')} />
                 </div>
