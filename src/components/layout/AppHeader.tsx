@@ -1,45 +1,37 @@
-import type { FC } from "react";
-import { AppButton } from "../ui/AppButton";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import apiClient from '../../api/apiClient';
 
-export const AppHeader: FC = () => {
+export const AppHeader: React.FC = () => {
+    const [menuOpen, setMenuOpen] = useState(false);
+    const navigate = useNavigate();
+    const token = localStorage.getItem('token');
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        delete apiClient.defaults.headers.common['Authorization'];
+        navigate('/login');
+    };
+
     return (
-        <header className="fixed top-0 w-full z-50 bg-[#1F1F1F] shadow-md">
-            <nav className="flex items-center justify-between px-4 py-3 max-w-screen-xl mx-auto">
-                {/* Left: Logo and Navigation Links */}
-                <div className="flex items-center space-x-6">
-                    <div className="flex items-center justify-center w-8 h-8 rounded-md bg-[#2B2E33] text-white font-bold text-lg font-sans select-none">
-                        B
-                    </div>
-
-                    {["Home", "Features", "Pricing", "FAQs", "About"].map((label, idx) => (
-                        <a
-                            key={idx}
-                            href="#"
-                            className={`text-sm font-normal transition ${label === "Features" ? "text-white hover:underline" : "text-gray-400 hover:text-white"
-                                }`}
-                        >
-                            {label}
-                        </a>
-                    ))}
-                </div>
-
-                {/* Right: Search Input + AppButtons */}
-                <div className="flex items-center space-x-3">
-                    <input
-                        type="text"
-                        placeholder="Search..."
-                        className="bg-[#2B2E33] text-gray-400 text-sm rounded px-3 py-1 w-36 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
-                    />
-
-                    <AppButton
-                        label="Login"
-                        className="p-button-outlined p-button-sm border border-gray-500 text-white hover:bg-gray-700 transition"
-                    />
-
-                    <AppButton
-                        label="Sign-up"
-                        className="p-button-sm bg-yellow-500 text-black hover:bg-yellow-600 transition"
-                    />
+        <header className="bg-gray-800 text-white fixed top-0 left-0 right-0 z-10">
+            <nav className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+                <Link to="/" className="text-lg font-semibold" onClick={() => setMenuOpen(false)}>LatestDemo</Link>
+                <button className="md:hidden" onClick={() => setMenuOpen(o => !o)}>
+                    <i className="pi pi-bars" />
+                </button>
+                <div className={`${menuOpen ? 'block' : 'hidden'} md:flex md:items-center space-x-4`}> 
+                    {token ? (
+                        <>
+                            <Link to="/addresses" className="block" onClick={() => setMenuOpen(false)}>Addresses</Link>
+                            <button onClick={() => { setMenuOpen(false); handleLogout(); }} className="block">Logout</button>
+                        </>
+                    ) : (
+                        <>
+                            <Link to="/login" onClick={() => setMenuOpen(false)} className="block hover:underline">Login</Link>
+                            <Link to="/register" onClick={() => setMenuOpen(false)} className="block hover:underline">Register</Link>
+                        </>
+                    )}
                 </div>
             </nav>
         </header>
